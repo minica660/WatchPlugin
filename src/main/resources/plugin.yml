@@ -4,3 +4,6 @@ version: '${version}'
 main: MiniCash.watch.Watch
 api-version: '1.21.11'
 load: POSTWORLD
+description: タイマー、ストップウォッチが使えるプラグイン
+authors:
+  - MiniCash
