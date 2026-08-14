@@ -25,11 +25,11 @@ public class WatchCommand implements BasicCommand {
         this.plugin = plugin;
         this.timerManager = timerManager;
 
-        helpMessage.add(Component.text("タイマーを起動 /watch timer <seconds> <displayType>"));
-        helpMessage.add(Component.text("ストップウォッチを起動 /watch stopwatch <displayType>"));
-        helpMessage.add(Component.text("ストップウォッチの表示切替 /watch toggle"));
-        helpMessage.add(Component.text("現在有効なタイマーを停止 /watch stop timer"));
-        helpMessage.add(Component.text("現在有効なストップウォッチを停止 /watch stop stopwatch"));
+        helpMessage.add(Component.text("タイマーを起動 /watch timer <seconds> <displayType>", NamedTextColor.WHITE));
+        helpMessage.add(Component.text("ストップウォッチを起動 /watch stopwatch <displayType>", NamedTextColor.WHITE));
+        helpMessage.add(Component.text("ストップウォッチの表示切替 /watch toggle", NamedTextColor.WHITE));
+        helpMessage.add(Component.text("現在有効なタイマーを停止 /watch stop timer", NamedTextColor.WHITE));
+        helpMessage.add(Component.text("現在有効なストップウォッチを停止 /watch stop stopwatch", NamedTextColor.WHITE));
 
 
 
@@ -38,7 +38,7 @@ public class WatchCommand implements BasicCommand {
     @Override
     public void execute(CommandSourceStack commandSourceStack, String[] args) {
 
-        CommandSender sender = (CommandSender) commandSourceStack;
+        CommandSender sender = commandSourceStack.getSender();
 
         if(args.length == 0) {
 
@@ -51,6 +51,8 @@ public class WatchCommand implements BasicCommand {
                 );
 
             }
+
+            return;
         }
 
 
@@ -124,7 +126,7 @@ public class WatchCommand implements BasicCommand {
                     DisplayType displayType;
 
                     try {
-                        displayType = DisplayType.valueOf(args[2]);
+                        displayType = DisplayType.valueOf(args[1]);
                     }catch(IllegalArgumentException e) {
                         sender.sendMessage(
                                 getMessage(
@@ -233,7 +235,8 @@ public class WatchCommand implements BasicCommand {
 
         if (args.length == 0 || args.length == 1) {
             List<String> subCommands = List.of("timer", "stopwatch", "toggle", "stop");
-            return filterSuggest(subCommands, args[0]);
+            String current = (args.length == 0) ? "" : args[0];
+            return filterSuggest(subCommands, current);
         }
 
         if (args.length > 1) {
