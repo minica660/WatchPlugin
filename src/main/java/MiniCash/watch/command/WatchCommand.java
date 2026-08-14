@@ -52,7 +52,7 @@ public class WatchCommand implements BasicCommand {
             }
 
             return;
-            
+
         }
 
 
@@ -186,22 +186,49 @@ public class WatchCommand implements BasicCommand {
                 if (args.length == 2) {
 
                     if (args[1].equals("timer")) {
-                        timerManager.stopTimer();
-                        sender.sendMessage(
-                                getMessage(
-                                        Component.text("タイマーを停止しました")
-                                )
-                        );
+                        if(timerManager.stopTimer()) {
+
+                            sender.sendMessage(
+                                    getMessage(
+                                            Component.text("タイマーを停止しました")
+                                    )
+                            );
+
+                        }else {
+
+                            sender.sendMessage(
+                                    getMessage(
+                                            Component.text(
+                                                    "現在タイマーが起動していません",NamedTextColor.RED
+                                            )
+                                    )
+                            );
+
+                        }
 
                         return;
 
                     } else if (args[1].equals("stopwatch")) {
-                        timerManager.stopStopWatch();
-                        sender.sendMessage(
-                                getMessage(
-                                        Component.text("ストップウォッチを停止しました")
-                                )
-                        );
+
+                        if(timerManager.stopStopWatch()) {
+
+                            sender.sendMessage(
+                                    getMessage(
+                                            Component.text("ストップウォッチを停止しました")
+                                    )
+                            );
+
+                        }else {
+
+                            sender.sendMessage(
+                                    getMessage(
+                                            Component.text(
+                                                    "現在ストップウォッチが起動していません",NamedTextColor.RED
+                                            )
+                                    )
+                            );
+
+                        }
 
                         return;
                     } else {
