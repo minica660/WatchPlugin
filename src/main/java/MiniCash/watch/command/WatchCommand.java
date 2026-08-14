@@ -21,7 +21,7 @@ public class WatchCommand implements BasicCommand {
     final Watch plugin;
     final TimerManager timerManager;
 
-    public WatchCommand(Watch plugin,TimerManager timerManager) {
+    public WatchCommand(Watch plugin, TimerManager timerManager) {
         this.plugin = plugin;
         this.timerManager = timerManager;
 
@@ -32,7 +32,6 @@ public class WatchCommand implements BasicCommand {
         helpMessage.add(Component.text("現在有効なストップウォッチを停止 /watch stop stopwatch", NamedTextColor.WHITE));
 
 
-
     }
 
     @Override
@@ -40,9 +39,9 @@ public class WatchCommand implements BasicCommand {
 
         CommandSender sender = commandSourceStack.getSender();
 
-        if(args.length == 0) {
+        if (args.length == 0) {
 
-            for(Component component : helpMessage) {
+            for (Component component : helpMessage) {
 
                 sender.sendMessage(
                         getMessage(
@@ -59,14 +58,14 @@ public class WatchCommand implements BasicCommand {
         switch (args[0]) {
             case "timer":
 
-                if(args.length == 3) {
+                if (args.length == 3) {
 
                     int seconds = 0;
                     DisplayType displayType;
 
                     try {
-                       seconds = Integer.parseInt(args[1]);
-                    }catch(NumberFormatException e) {
+                        seconds = Integer.parseInt(args[1]);
+                    } catch (NumberFormatException e) {
                         sender.sendMessage(
                                 getMessage(
                                         Component.text("タイマー時刻には数値を入力してください", NamedTextColor.RED)
@@ -77,7 +76,7 @@ public class WatchCommand implements BasicCommand {
 
                     try {
                         displayType = DisplayType.valueOf(args[2]);
-                    }catch(IllegalArgumentException e) {
+                    } catch (IllegalArgumentException e) {
                         sender.sendMessage(
                                 getMessage(
                                         Component.text(e.getMessage(), NamedTextColor.RED)
@@ -96,22 +95,20 @@ public class WatchCommand implements BasicCommand {
                         );
                         sender.sendMessage(
                                 getMessage(
-                                        Component.text("現在有効なタイマーを止めたうえで再度このコマンドを実行してください",NamedTextColor.RED)
+                                        Component.text("現在有効なタイマーを止めたうえで再度このコマンドを実行してください", NamedTextColor.RED)
                                 )
                         );
 
-                        return;
 
                     } else {
                         sender.sendMessage(
                                 getMessage(
-                                        Component.text("タイマーを時間：" + seconds + "秒 , 表示タイプ:" + displayType.name() + "で開始しました",NamedTextColor.GREEN)
+                                        Component.text("タイマーを時間：" + seconds + "秒 , 表示タイプ:" + displayType.name() + "で開始しました", NamedTextColor.GREEN)
                                 )
                         );
                     }
-                    break;
 
-                }else {
+                } else {
                     sender.sendMessage(
                             getMessage(
                                     helpMessage.get(0)
@@ -119,15 +116,17 @@ public class WatchCommand implements BasicCommand {
                     );
                 }
 
+                break;
+
             case "stopwatch":
 
-                if(args.length == 2) {
+                if (args.length == 2) {
 
                     DisplayType displayType;
 
                     try {
                         displayType = DisplayType.valueOf(args[1]);
-                    }catch(IllegalArgumentException e) {
+                    } catch (IllegalArgumentException e) {
                         sender.sendMessage(
                                 getMessage(
                                         Component.text(e.getMessage(), NamedTextColor.RED)
@@ -146,28 +145,27 @@ public class WatchCommand implements BasicCommand {
                         );
                         sender.sendMessage(
                                 getMessage(
-                                        Component.text("現在有効なストップウォッチを止めたうえで再度このコマンドを実行してください",NamedTextColor.RED)
+                                        Component.text("現在有効なストップウォッチを止めたうえで再度このコマンドを実行してください", NamedTextColor.RED)
                                 )
                         );
 
-                        return;
 
                     } else {
                         sender.sendMessage(
                                 getMessage(
-                                        Component.text("ストップウォッチを表示タイプ: " + displayType.name() + "で開始しました",NamedTextColor.GREEN)
+                                        Component.text("ストップウォッチを表示タイプ: " + displayType.name() + "で開始しました", NamedTextColor.GREEN)
                                 )
                         );
                     }
-                    break;
 
-                }else {
+                } else {
                     sender.sendMessage(
                             getMessage(
                                     helpMessage.get(1)
                             )
                     );
                 }
+                break;
 
             case "toggle":
 
@@ -177,16 +175,16 @@ public class WatchCommand implements BasicCommand {
 
                 sender.sendMessage(
                         getMessage(
-                            Component.text("ストップウォッチの表示を" + onOff + "にしました",NamedTextColor.YELLOW)
+                                Component.text("ストップウォッチの表示を" + onOff + "にしました", NamedTextColor.YELLOW)
                         )
                 );
                 break;
 
             case "stop":
 
-                if(args.length == 2) {
+                if (args.length == 2) {
 
-                    if(args[1].equals("timer")){
+                    if (args[1].equals("timer")) {
                         timerManager.stopTimer();
                         sender.sendMessage(
                                 getMessage(
@@ -194,34 +192,47 @@ public class WatchCommand implements BasicCommand {
                                 )
                         );
 
-                    }else if(args[1].equals("stopwatch")){
+                        return;
+
+                    } else if (args[1].equals("stopwatch")) {
                         timerManager.stopStopWatch();
                         sender.sendMessage(
                                 getMessage(
                                         Component.text("ストップウォッチを停止しました")
                                 )
                         );
-                    }else {
+
+                        return;
+                    } else {
 
                         sender.sendMessage(
-                                helpMessage.get(4)
+                                getMessage(
+                                        helpMessage.get(3)
+                                )
                         );
                         sender.sendMessage(
-                                helpMessage.get(5)
+                                getMessage(
+                                        helpMessage.get(4)
+                                )
                         );
 
                     }
 
 
-                }else {
+                } else {
                     sender.sendMessage(
                             getMessage(
-                                    helpMessage.get(4)
+                                    helpMessage.get(3)
                             )
                     );
                     sender.sendMessage(
-                            helpMessage.get(5)
+                            helpMessage.get(4)
                     );
+                }
+                break;
+            default:
+                for (Component component : helpMessage) {
+                    sender.sendMessage(getMessage(component));
                 }
                 break;
 
@@ -292,11 +303,11 @@ public class WatchCommand implements BasicCommand {
 
     @Override
     public @Nullable String permission() {
-        return BasicCommand.super.permission();
+        return "wath.command.watch";
     }
 
 
-    public static Component getMessage(Component message){
+    public static Component getMessage(Component message) {
         return Component.text("[").color(NamedTextColor.DARK_GRAY).append(Component.text("Watch").color(NamedTextColor.GOLD).append(Component.text("]").color(NamedTextColor.DARK_GRAY)
                 .append(message)
         ));
